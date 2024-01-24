@@ -27,7 +27,7 @@ const AddAdopterForm = ({ onAdopterSubmit }) => {
                 Dirección:
                 <input type="text" value={adopterAddress} onChange={(e) => setAdopterAddress(e.target.value)} required />
             </label>
-            <button type="submit">Agregar adoptante</button>
+            <button type="submit">Agregar pregunta</button>
         </form>
     );
 };
