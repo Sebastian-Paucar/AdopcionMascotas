@@ -23,6 +23,7 @@ a:hover {
 }
 
 body {
+
   margin: 0;
   display: flex;
   place-items: center;
@@ -65,4 +66,55 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+/* Estilo base para el select */
+select {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+/* Estilo cuando el select está enfocado */
+select:focus {
+  border-color: #007bff;
+}
+
+/* Estilo para las opciones del select */
+select option {
+  background-color: #fff;
+  color: #333;
+}
+
+/* Estilo para las opciones cuando el cursor está sobre ellas */
+select option:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+/* Estilo base para el input de texto */
+input[type="text"] {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+/* Estilo cuando el input de texto está enfocado */
+input[type="text"]:focus {
+  border-color: #007bff;
+}
+/* Estilo base para las etiquetas */
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+/* Estilo para resaltar las etiquetas cuando el input está enfocado */
+label:focus-within {
+  color: #007bff;
 }

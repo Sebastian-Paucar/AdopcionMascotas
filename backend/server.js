@@ -1,4 +1,3 @@
-// backend/server.js
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -21,108 +20,71 @@ const initializeDataFile = (fileName) => {
         fs.writeFileSync(filePath, `module.exports = [];`);
     }
 };
-
-initializeDataFile('dogs');
-initializeDataFile('adopters');
-initializeDataFile('adoptions');
+initializeDataFile('questions');
+initializeDataFile('tests');
 
 // Cargar datos al inicio del servidor
-let dogsData = require('../database/dogs');
-let adoptersData = require('../database/adopters');
-let adoptionsData = require('../database/adoptions');
+let questionsData = require('../database/questions');
+let testsData = require('../database/tests');
 
-app.get('/dogs', (req, res) => {
+app.post('/questions', (req, res) => {
     try {
-        res.json(dogsData);
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).json({ error: error.message });
-    }
-});
-
-app.post('/dogs', (req, res) => {
-    try {
-        const { name, breed } = req.body;
-        if (!name || !breed) {
-            return res.status(400).json({ error: 'El nombre y la raza del perro son requeridos' });
+        const { question, answers } = req.body;
+        if (!question || !answers || !Array.isArray(answers)) {
+            return res.status(400).json({ error: 'La pregunta y las respuestas son requeridas' });
         }
-        const newDog = {
-            id: dogsData.length + 1,
-            name,
-            breed,
+        const newQuestion = {
+            id: questionsData.length + 1,
+            question,
+            answers,
         };
-        dogsData.push(newDog);
-        fs.writeFileSync(path.join(databasePath, 'dogs.js'), `module.exports = ${JSON.stringify(dogsData, null, 2)};`);
+        questionsData.push(newQuestion);
+        fs.writeFileSync(path.join(databasePath, 'questions.js'), `module.exports = ${JSON.stringify(questionsData, null, 2)};`);
 
-        res.status(201).json(newDog);
-    }
-    catch (error) {
-        console.error('Error en POST /dogs:', error.message);
-        res.status(500).json({ error: error.message });
-    }
-});
-
-app.get('/adopters', (req, res) => {
-    try {
-        res.json(adoptersData);
+        res.status(201).json(newQuestion);
     } catch (error) {
-        console.error(error.message);
+        console.error('Error en POST /questions:', error.message);
         res.status(500).json({ error: error.message });
     }
 });
-
-app.post('/adopters', (req, res) => {
+app.get('/questions', (req, res) => {
     try {
-        const newAdopter = {
-            id: adoptersData.length + 1,
-            name: req.body.name,
-            address: req.body.address,
-        };
-
-        console.log('Nuevo adoptante:', newAdopter);
-
-        adoptersData.push(newAdopter);
-        fs.writeFileSync(path.join(databasePath, 'adopters.js'), `module.exports = ${JSON.stringify(adoptersData, null, 2)};`);
-
-        res.json(newAdopter);
+        res.json(questionsData);
     } catch (error) {
-        console.error('Error en POST /adopters:', error.message);
+        console.error('Error en GET /questions:', error.message);
         res.status(500).json({ error: error.message });
     }
 });
-
-
-app.get('/adoptions', (req, res) => {
+app.get('/tests', (req, res) => {
     try {
-        res.json(adoptionsData);
+        res.json(testsData);
     } catch (error) {
-        console.error(error.message);
+        console.error('Error en GET /tests:', error.message);
         res.status(500).json({ error: error.message });
     }
 });
-
-app.post('/adoptions', (req, res) => {
+app.post('/tests', (req, res) => {
     try {
-        const newAdoption = {
-            id: adoptionsData.length + 1,
-            dogId: req.body.dogId,
-            adopterId: req.body.adopterId,
-            dogname: req.body.dogname,
-            adoptername: req.body.adoptername,
+        const { questions } = req.body;
+        if (!questions || !Array.isArray(questions)) {
+            return res.status(400).json({ error: 'Se requieren preguntas válidas para crear un nuevo cuestionario' });
+        }
+
+        const newTest = {
+            id: testsData.length + 1,
+            questions,
         };
 
-        console.log('Nueva adopcion:', newAdoption);
+        testsData.push(newTest);
 
-        adoptionsData.push(newAdoption);
-        fs.writeFileSync(path.join(databasePath, 'adoptions.js'), `module.exports = ${JSON.stringify(adoptionsData, null, 2)};`);
+        fs.writeFileSync(path.join(databasePath, 'tests.js'), `module.exports = ${JSON.stringify(testsData, null, 2)};`);
 
-        res.json(newAdoption);
+        res.status(201).json(newTest);
     } catch (error) {
-        console.error('Error en POST /adoptions:', error.message);
+        console.error('Error en POST /tests:', error.message);
         res.status(500).json({ error: error.message });
     }
 });
-
 // Inicia el servidor
 app.listen(PORT, () => {
     console.log(`Servidor backend en ejecución en http://localhost:${PORT}`);

@@ -1,143 +1,105 @@
 // App.jsx
 import { useState, useEffect } from 'react';
-import AdoptionForm from './components/AdoptionForm';
-import AdoptionList from './components/AdoptionList';
-import AvailableList from './components/AvailableList';
-import AddDogForm from './components/AddDogForm';
-import AddAdopterForm from './components/AddAdopterForm';
-
+import AddForm from './components/AddForm';
+import FormList from './components/FormList';
+import TestList from './components/TestList';
+import AddQuestions from './components/AddQuestions';
 const App = () => {
-  const [dogs, setDogs] = useState([]);
-  const [adopters, setAdopters] = useState([]);
-  const [adoptions, setAdoptions] = useState([]);
-
+  const [questions, setQuestions] = useState([]);
+ const [tests, setTests] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const dogsResponse = await fetch('http://localhost:3001/dogs');
-        const dogsData = await dogsResponse.json();
-        setDogs(dogsData);
-
-        const adoptersResponse = await fetch('http://localhost:3001/adopters');
-        const adoptersData = await adoptersResponse.json();
-        setAdopters(adoptersData);
-
-        const adoptionsResponse = await fetch('http://localhost:3001/adoptions');
-        const adoptionsData = await adoptionsResponse.json();
-        console.log('Adopciones:', adoptionsData);
-        setAdoptions(adoptionsData);
+        const questionsResponse = await fetch('http://localhost:3001/questions');
+        const questionsData = await questionsResponse.json();
+        setQuestions(questionsData);
+        const testsResponse = await fetch('http://localhost:3001/tests');
+        const testsData = await testsResponse.json();
+        setTests(testsData);
       } catch (error) {
         console.error('Error al cargar datos:', error.message);
       }
     };
-
     fetchData();
   }, []);
-
-  const handleAdoptionSubmit = async (dogId, adopterId) => {
+  const handleQuestionSubmit = async (questionadd, answersadd) => {
     try {
-      const response = await fetch('http://localhost:3001/adoptions', {
+      const response = await fetch('http://localhost:3001/questions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          dogId,
-          adopterId,
+          question:questionadd,
+          answers:answersadd
         }),
       });
 
       if (response.ok) {
-        const newAdoption = await response.json();
-        setAdoptions((prevAdoptions) => [...prevAdoptions, newAdoption]);
+        const newQuestion = await response.json();
+        setQuestions((prevQuestion) => [...prevQuestion, newQuestion]);
 
-        // Mostrar una alerta con los datos de la nueva adopción
-        alert(`¡Adopción realizada con éxito!\nID: ${newAdoption.id}\nPerro: ${newAdoption.dogId}\nAdoptante: ${newAdoption.adopterId}`);
+        // Mostrar una alerta con los datos del nuevo cuestionario
+        alert(`¡Pregunta creada con éxito!\nID: ${newQuestion.id}\nPreguntas: ${newQuestion.question} \nRespuestas: ${newQuestion.answers}`);
       } else {
-        throw new Error('Error al enviar la solicitud de adopción.');
+        throw new Error('Error al enviar la solicitud del cuestionario.');
       }
     } catch (error) {
-      console.error('Error en la solicitud de adopción:', error.message);
+      console.error('Error en la solicitud del cuestionario:', error.message);
       throw error;
     }
   };
-
-  const handleDogSubmit = async (dogName, dogBreed) => {
+  const handleTestSubmit = async (listQuestions) => {
+    const questionsAsNumbers = listQuestions.map((questionId) => Number(questionId));
     try {
-      const response = await fetch('http://localhost:3001/dogs', {
+      
+      const response = await fetch('http://localhost:3001/tests', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: dogName,
-          breed: dogBreed
+          questions: questionsAsNumbers
         }),
       });
 
       if (response.ok) {
-        const newDog = await response.json();
-        setDogs((prevDogs) => [...prevDogs, newDog]);
-        alert(`¡Nuevo perro agregado con éxito!\nID: ${newDog.id}\nNombre: ${newDog.name}\nRaza: ${newDog.breed}`);
+        const newTest = await response.json();
+        setQuestions((prevTest) => [...prevTest, newTest]);
+        // Mostrar una alerta con los datos del nuevo cuestionario
+        alert(`¡Test creado con éxito!\nID: ${newTest.id}\nPreguntas: ${newTest.questions} `);
       } else {
-        throw new Error('Error al enviar la solicitud de nuevo Perrito');
+        throw new Error('Error al enviar la solicitud del cuestionario.');
       }
     } catch (error) {
-      console.log('Error en la solicitud de nuevo perrito:', error.message);
+      console.error('Error en la solicitud del cuestionario:', error.message);
       throw error;
     }
   };
-
-  const handleAdopterSubmit = async (adopterName, adopterAddress) => {
-    try {
-      const response = await fetch('http://localhost:3001/adopters', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ 
-          name: adopterName, 
-          address: adopterAddress 
-        }),
-      });
-
-      if (response.ok) {
-        const newAdopter = await response.json();
-
-        // Imprime newAdopter para ver qué propiedades tiene
-        console.log(newAdopter);
-
-        if (!newAdopter.id || !newAdopter.name || !newAdopter.address) {
-          throw new Error('El nuevo adoptante no tiene ID o nombre o dirección');
-        }
-
-        setAdopters((prevAdopters) => [...prevAdopters, newAdopter]);
-
-        // Mostrar una alerta con los datos del nuevo adoptante
-        alert(`¡Nuevo adoptante creado con éxito!\nID: ${newAdopter.id}\nNombre: ${newAdopter.name}\nDirección: ${newAdopter.address}`);
-      } else {
-        throw new Error('Error al crear el nuevo adoptante');
-      }
-    } catch (error) {
-      console.error('Error en la solicitud de nuevo adoptante:', error.message);
-      throw error;
-    }
-  };
-
   return (
+
     <div className="App">
-      <h1>Lista de Adopciones</h1>
-      <AdoptionList adoptions={adoptions} dogs={dogs} adopters={adopters} />
-      <h1>Disponibles para adopción</h1>
-      <AvailableList dogs={dogs} adopters={adopters} />
-      <h1>Nuevo perro</h1>
-      <AddDogForm dogs={dogs} onDogSubmit={handleDogSubmit} />
-      <h1>Nuevo adoptante</h1>
-      <AddAdopterForm adopters={adopters} onAdopterSubmit={handleAdopterSubmit} />
-      <h1>Nueva Adopción</h1>
-      <AdoptionForm dogs={dogs} adopters={adopters} onAdoptionSubmit={handleAdoptionSubmit} />
+  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px' }}>
+      <div style={{ overflowY: 'auto', maxHeight: '40vw' }}>
+        <h1>Lista de Preguntas</h1>
+      <FormList questions={questions}/>
+      </div>
+      <div>
+      <h1>Nuevo cuestionario</h1>
+       <AddForm questions={questions} onTestSubmit={handleTestSubmit} />
+       <div style={{ overflowY: 'auto', maxHeight: '25vw' }}>
+       <h1>Pruebas Creadas</h1>
+       <TestList tests={tests} questions={questions}/>
+       </div>
+      </div>
+      <div>
+        <AddQuestions questions={questions} onQuestionSubmit={handleQuestionSubmit}/>
+      </div>
+    </div>
+
+
+     
     </div>
   );
 };
-
 export default App;

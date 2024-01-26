@@ -1,39 +1,70 @@
-// AddAdopterForm.jsx
+// AddForm.jsx
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const AddAdopterForm = ({ onAdopterSubmit }) => {
-    const [adopterName, setAdopterName] = useState('');
-    const [adopterAddress, setAdopterAddress] = useState('');
+const AddForm = ({ questions, onTestSubmit }) => {
+    const [selectedQuestions, setSelectedQuestions] = useState([]);
+    const [newQuestion, setNewQuestion] = useState('');
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        if (adopterName && adopterAddress) {
-            onAdopterSubmit(adopterName, adopterAddress);
-            setAdopterName('');
-            setAdopterAddress('');
+    const handleAddQuestion = () => {
+        if (newQuestion) {
+            setSelectedQuestions([...selectedQuestions, newQuestion]);
+            setNewQuestion('');
+        }
+
+    };
+
+    const handleTestSubmit = (e) => {
+        e.preventDefault();
+        if (selectedQuestions.length > 0) {
+            onTestSubmit(selectedQuestions);
+            setSelectedQuestions([]);
+            setNewQuestion('');
         } else {
-            console.error('Debe ingresar un nombre y una dirección para el adoptante.');
+            console.error('Debe seleccionar al menos una pregunta.');
         }
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label>
-                Nombre:
-                <input type="text" value={adopterName} onChange={(e) => setAdopterName(e.target.value)} required />
-            </label>
-            <label>
-                Dirección:
-                <input type="text" value={adopterAddress} onChange={(e) => setAdopterAddress(e.target.value)} required />
-            </label>
-            <button type="submit">Agregar pregunta</button>
+        <div>
+        <form onSubmit={handleTestSubmit}>
+          <select value={newQuestion} onChange={(e) => setNewQuestion(e.target.value)}>
+            <option value="">Selecciona una pregunta 🤔</option>
+            {questions.map((question) => (
+              <option key={question.id} value={question.id}>
+                🤔 {question.question}
+              </option>
+            ))}
+          </select>
+          <button type="button" onClick={handleAddQuestion}>
+            Agregar pregunta
+          </button>
+          <div>
+            Preguntas seleccionadas:
+            {selectedQuestions.map((selectedQuestion, index) => (
+              <div key={index}> 
+                {questions.map((question) => {
+                  if (question.id === index+1) {
+                    return (
+                      <p key={question.id}>
+                        {` ${index + 1}. ${question.question}`}
+                      </p>
+                    );
+                  }
+                  return null;
+                })}
+              </div>
+            ))}
+          </div>
+          <button type="submit">Guardar cuestionario</button>
         </form>
+      </div>
     );
 };
 
-AddAdopterForm.propTypes = {
-    onAdopterSubmit: PropTypes.func.isRequired,
+AddForm.propTypes = {
+    questions: PropTypes.array.isRequired,
+    onTestSubmit: PropTypes.func.isRequired,
 };
 
-export default AddAdopterForm;
+export default AddForm;
