@@ -60,3 +60,7 @@ npm run dev
 
 Ahora, deberías poder ver la aplicación en tu navegador en `http://localhost:5173`.
 
+### Nota
+
+Al momento de agregar otra evaluación, hay que refrescar la página para que se vizualice correctamente.
+
