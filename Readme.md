@@ -58,5 +58,5 @@ cd frontend
 npm run dev
 ```
 
-Ahora, deberías poder ver la aplicación en tu navegador en `http://localhost:3001`.
+Ahora, deberías poder ver la aplicación en tu navegador en `http://localhost:5173`.
 
