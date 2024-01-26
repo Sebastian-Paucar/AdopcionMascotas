@@ -1,18 +1,7 @@
-# Aplicación de Adopción de Mascotas 🐶👤
+# Aplicación para la crecion de Tests👤
 
-![App en Funcionamiento](https://github.com/statick88/AdopcionMascotas/blob/main/img/image.png)
+![App en Funcionamiento](https://github.com/Sebastian-Paucar/AplicativoPreguntas/blob/main/img/image1.png)
 
-Esta aplicación te permite gestionar un sistema de adopción de mascotas. Puedes agregar nuevos perros rescatados, agregar nuevos adoptantes y realizar adopciones. 
-
-La aplicación sigue un diseño de arquitectura de 3 capas, que es un patrón comúnmente utilizado en el desarrollo web. Este diseño divide la aplicación en tres partes:
-
-1. **Capa de Presentación (Interfaz de usuario):** Esta es la capa que los usuarios ven e interactúan. En nuestra aplicación, esta capa está implementada con React. Los componentes de React se utilizan para crear la interfaz de usuario, que incluye formularios para agregar nuevos perros y adoptantes, y una lista de adopciones.
-
-2. **Capa de Lógica de Negocio (Procesamiento de Datos):** Esta capa maneja la lógica de la aplicación, como agregar nuevos perros y adoptantes, y realizar adopciones. En nuestra aplicación, esta lógica se maneja en el frontend con React y en el backend con Express.
-
-3. **Capa de Acceso a Datos (Interacción con la Base de Datos):** Esta capa se encarga de interactuar con la base de datos para almacenar y recuperar datos. En nuestra aplicación, esta interacción se simula con archivos JSON.
-
-Cada capa tiene una responsabilidad específica, lo que hace que la aplicación sea más fácil de mantener y escalar. Además, al separar la lógica de la aplicación en diferentes capas, cada capa puede desarrollarse y probarse de forma independiente.
 
 ## Requisitos Previos
 
@@ -26,33 +15,6 @@ Para ejecutar esta aplicación, necesitarás tener instalado lo siguiente en tu 
 
 Una vez que hayas instalado estos requisitos previos, puedes clonar el repositorio y ejecutar `npm install` para instalar todas las dependencias necesarias para la aplicación.
 
-## Estructura del Proyecto
-
-El proyecto sigue la estructura de una aplicación de 3 capas:
-
-``` markdown
-adopcion-mascotas/
-|-- frontend/
-|   |-- node_modules/
-|   |-- public/
-|   |-- src/
-|   |   |-- components/
-|   |   |   |-- AddAdopterForm.jsx
-|   |   |   |-- AddDogForm.jsx
-|   |   |   |-- AdoptionForm.jsx
-|   |   |   |-- AdoptionList.jsx
-|   |   |   |-- AvailableList.jsx
-|   |   |-- App.jsx
-|   |   |-- index.js
-|   |-- package.json
-|-- backend/
-|   |-- node_modules/
-|   |-- routes/
-|   |-- database/
-|   |-- server.js
-|   |-- package.json
-|-- README.md
-```
 
 - **frontend/**: Esta carpeta contiene todos los archivos relacionados con la interfaz de usuario de la aplicación, incluyendo los componentes de React y el punto de entrada de la aplicación (`index.js`).
 
@@ -67,7 +29,7 @@ adopcion-mascotas/
 Primero, necesitas clonar el repositorio en tu máquina local. Puedes hacerlo con el siguiente comando:
 
 ```bash
-git clone https://github.com/statick88/adopcion-mascotas.git
+https://github.com/Sebastian-Paucar/AplicativoPreguntas
 cd adopcion-mascotas
 ```
 
@@ -96,10 +58,5 @@ cd frontend
 npm run dev
 ```
 
-Ahora, deberías poder ver la aplicación en tu navegador en `http://localhost:3000`.
+Ahora, deberías poder ver la aplicación en tu navegador en `http://localhost:3001`.
 
-## Conclusión
-
-¡Felicidades! Ahora tienes una aplicación de adopción de mascotas en funcionamiento. Este proyecto es un excelente punto de partida para aprender más sobre `React`, `Express` y la `arquitectura de 3 capas`. No dudes en explorar el código y experimentar con él. 
-
-¡Diviértete codificando!
