@@ -30,7 +30,7 @@ Primero, necesitas clonar el repositorio en tu máquina local. Puedes hacerlo co
 
 ```bash
 https://github.com/Sebastian-Paucar/AplicativoPreguntas
-cd adopcion-mascotas
+cd AplicativoPreguntas
 ```
 
 ### 2. Instala las Dependencias
